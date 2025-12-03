@@ -5,7 +5,7 @@
 Lsb_release() {
     local file=/etc/lsb-release
 
-    [ $in_current_folder = yes ] && SkipPath file
+    [ "$in_current_folder" = yes ] && SkipPath file
 
     if [ -z "$(grep "^DISTRIB_CODENAME=" $file)" ] ; then
         # add missing DISTRIB_CODENAME=
@@ -22,7 +22,7 @@ Os_release() {
     local file=/usr/lib/os-release
     local eosfile=/usr/lib/endeavouros-release
 
-    if [ $in_current_folder = yes ] ; then
+    if [ "$in_current_folder" = yes ] ; then
         SkipPath file
         SkipPath eosfile
     fi
@@ -61,7 +61,7 @@ Os_release() {
 Issues() {
     local file1=/etc/issue
     local file2=/usr/share/factory/etc/issue
-    if [ $in_current_folder = yes ] ; then
+    if [ "$in_current_folder" = yes ] ; then
         SkipPath file1
         SkipPath file2
     fi
