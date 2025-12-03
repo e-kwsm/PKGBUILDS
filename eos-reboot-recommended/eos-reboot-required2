@@ -53,7 +53,7 @@ Main() {
                 ;;
             btrfs-progs)
                 # Notify only if btrfs is in use
-                [ "$(/usr/bin/df -hT | awk '{print $2}' | grep -w btrfs)" ] && list_of_targets+=("$target")
+                /usr/bin/df -hT | awk '{print $2}' | grep -q -w btrfs && list_of_targets+=("$target")
                 ;;
             wayland | egl-wayland)
                 case "$XDG_SESSION_TYPE" in
