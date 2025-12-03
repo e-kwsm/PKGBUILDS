@@ -200,10 +200,10 @@ CheckReposPacmanConf() {
     local stop=no
 
     for item in "${problem_repos[@]}" ; do
-        grep "^\[$item\]" "$file" >/dev/null && toberemoved+=("[$item]")
+        grep -q "^\[$item\]" "$file" && toberemoved+=("[$item]")
     done
     for item in "${needed_repos[@]}" ; do
-        grep "^\[$item\]" "$file" >/dev/null || tobeadded+=("[$item]")
+        grep -q "^\[$item\]" "$file" || tobeadded+=("[$item]")
     done
     if [ "${tobeadded[0]}" ] ; then
         echo2error "==> $progname: error: the following repo definitions must be added to $file:"
