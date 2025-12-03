@@ -8,9 +8,9 @@ find_token() {
         cat /etc/kernel/entry-token
     elif [[ -s /etc/machine-id ]] ; then
         cat /etc/machine-id
-    elif [[ $(grep "^IMAGE_ID=" /etc/os-release) ]] ; then
+    elif grep -q "^IMAGE_ID=" /etc/os-release ; then
         grep "^IMAGE_ID=" /etc/os-release | awk -F"=" '{print $2}'
-    elif [[ $(grep "^ID=" /etc/os-release) ]] ; then
+    elif grep -q "^ID=" /etc/os-release ; then
         grep "^ID=" /etc/os-release | awk -F"=" '{print $2}'
     fi
 }

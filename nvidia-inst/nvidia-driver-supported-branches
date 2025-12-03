@@ -72,7 +72,7 @@ ShowDriversForId() {
             [ $true_series -eq 390 ] || continue
         fi
         ids="$(GetNvidiaIds "$true_series")"
-        if [ -n "$(echo "$ids" | grep "$id")" ] ; then
+        if "$ids" | grep -q "$id" ; then
             printf "\nSeries %s: supported (nvidia.com: %s)\n\n" "$true_series" "$ver"     # DO NOT CHANGE THIS LINE! Other apps use it.
             if [ $include_beta = yes ] ; then
                 if [ "$ver" = "$beta_pkgver" ] && [ "$beta_pkgver" != "$pacman_pkgver" ] ; then
