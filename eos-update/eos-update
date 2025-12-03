@@ -117,7 +117,7 @@ CheckYourEndeavourosMirrorlist() {
                 local_mirrors=$(grep -n "^[ \t]*Server[ \t]*=[ \t]*" $eml | sed 's|[ \t]*Server[ \t]*=[ \t]*||')
 
                 for lm in $local_mirrors ; do
-                    if [ "$(echo "$good_mirrors" | grep "${lm#*:}")" ] ; then
+                    if echo "$good_mirrors" | grep -q "${lm#*:}" ; then
                         supported+=(${lm#*:})
                     else
                         unsupported+=($lm)  # includes the line number: "nr:https://..."
@@ -200,10 +200,10 @@ CheckReposPacmanConf() {
     local stop=no
 
     for item in "${problem_repos[@]}" ; do
-        [ "$(grep "^\[$item\]" $file)" ] && toberemoved+=("[$item]")
+        grep -q "^\[$item\]" $file && toberemoved+=("[$item]")
     done
     for item in "${needed_repos[@]}" ; do
-        [ "$(grep "^\[$item\]" $file)" ] || tobeadded+=("[$item]")
+        grep -q "^\[$item\]" $file || tobeadded+=("[$item]")
     done
     if [ "$tobeadded" ] ; then
         echo2error "==> $progname: error: the following repo definitions must be added to $file:"

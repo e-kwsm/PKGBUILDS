@@ -91,7 +91,7 @@ Main() {
                     fi
                     ;;
                 "#"*)
-                    if [ -n "$(echo "$line" | grep -E "#[ ]*\[")" ] ; then
+                    if echo "$line" | grep -q -E "#[ ]*\[" ; then
                         in_eos=no
                     fi
                     ;;
