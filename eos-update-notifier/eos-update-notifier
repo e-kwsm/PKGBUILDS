@@ -401,10 +401,10 @@ Initialize() {    # initialize service and timer for the current user
         case "$arg" in
             -conf | --conf)
                 # add any missing setting under [Timer] (in reverse order)
-                [ -n "$(grep ".*RandomizedDelaySec="   "$timer")" ] || sed -i "$timer" -e "/^\[Timer\]/a \RandomizedDelaySec=$randomizeddelaysec"
-                [ -n "$(grep ".*Persistent="           "$timer")" ] || sed -i "$timer" -e "/^\[Timer\]/a \Persistent=$persistent"
-                [ -n "$(grep ".*OnCalendar="           "$timer")" ] || sed -i "$timer" -e "/^\[Timer\]/a \OnCalendar=$oncalendar"
-                [ -n "$(grep ".*OnStartupSec="         "$timer")" ] || sed -i "$timer" -e "/^\[Timer\]/a \OnStartupSec=$onstartupsec"
+                grep -q ".*RandomizedDelaySec="   "$timer" || sed -i "$timer" -e "/^\[Timer\]/a \RandomizedDelaySec=$randomizeddelaysec"
+                grep -q ".*Persistent="           "$timer" || sed -i "$timer" -e "/^\[Timer\]/a \Persistent=$persistent"
+                grep -q ".*OnCalendar="           "$timer" || sed -i "$timer" -e "/^\[Timer\]/a \OnCalendar=$oncalendar"
+                grep -q ".*OnStartupSec="         "$timer" || sed -i "$timer" -e "/^\[Timer\]/a \OnStartupSec=$onstartupsec"
 
                 # remove possible old stuff
                 sed -i "$timer" -e "s|^# Persistent=true||"

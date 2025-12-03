@@ -232,13 +232,13 @@ Bumblebee() {
 
             if [ "$user" != "root" ] ; then
                 for group in bumblebee video ; do
-		    if [ -z "$(id $user | grep "($group)")" ] ; then
+		    if ! id $user | grep -q "($group)" ; then
 			Info "Adding user $user to group: $group"
 			AddCmd "gpasswd -a $user $group"
 		    fi
                 done
             fi
-            if [ "$(grep "$exec1" $desktop 2>/dev/null)" ] ; then
+            if grep -q "$exec1" $desktop 2>/dev/null ; then
                 Info "Patching $desktop (with optirun)"
                 AddCmd "sed -i $desktop -e 's|$exec1|$exec2|'"
             fi
@@ -259,7 +259,7 @@ Bumblebee() {
                 *)
                     if [ "$user" != "root" ] ; then
                         for group in bumblebee video ; do
-                            if [ "$(id $user | grep "($group)")" ] ; then
+                            if id $user | grep -q "($group)" ; then
                                 Info "Removing user $user from group: $group"
                                 AddCmd "gpasswd -d $user $group"
                             fi
@@ -834,8 +834,8 @@ Main()
 
     local txt=""
 
-    if [ "$(printf "%s\n" "${install[@]}" | grep -P "nvidia-390|nvidia-470")" ] ; then
-        if [ "$(grep "^\[kernel-lts\]" $pacmanconf )" ] ; then
+    if printf "%s\n" "${install[@]}" | grep -q -P "nvidia-390|nvidia-470" ; then
+        if grep -q "^\[kernel-lts\]" $pacmanconf ; then
             txt+="Sorry, the [kernel-lts] repo is no more supported.\n"
         else
             txt+="Sorry, $progname does not support installing packages from AUR.\n"

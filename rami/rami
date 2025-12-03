@@ -618,7 +618,7 @@ ExpandFavs() {
 }
 
 HasNoConfigOption() {
-    if [ "$(printf "%s\n" "$@" | grep "\--no-config")" ] ; then
+    if printf "%s\n" "$@" | grep -q "\--no-config" ; then
         read_config=no
     fi
 }

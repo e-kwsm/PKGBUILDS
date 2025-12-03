@@ -7,7 +7,7 @@ Lsb_release() {
 
     [ "$in_current_folder" = yes ] && SkipPath file
 
-    if [ -z "$(grep "^DISTRIB_CODENAME=" $file)" ] ; then
+    if ! grep -q "^DISTRIB_CODENAME=" $file; then
         # add missing DISTRIB_CODENAME=
         echo "DISTRIB_CODENAME=${quote}rolling${quote}" >> $file
     fi
@@ -47,7 +47,7 @@ Os_release() {
         -e "s|^PRIVACY_POLICY_URL=.*|PRIVACY_POLICY_URL=${quote}$privacy${quote}|" \
         -e "s|^ANSI_COLOR=\"\(.*\)\"|ANSI_COLOR=${quote}\1${quote}|"
 
-    if [ -z "$(grep "^ID_LIKE=" $file)" ] && [ -n "$(grep "^ID=" $file)" ] ; then
+    if ! grep -q "^ID_LIKE=" $file && grep -q "^ID=" $file; then
         # add missing ID_LIKE=
         sed -i $file -e "/^ID=/a \ID_LIKE=${quote}arch${quote}"
     fi
