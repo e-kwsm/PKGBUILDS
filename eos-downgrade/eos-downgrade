@@ -213,7 +213,7 @@ AddIgnoreAsk() {
     local file=/etc/pacman.conf
 
     for pkg in "$@" ; do
-        if [ -z "$(grep -w "$pkg" "$file" | grep "^IgnorePkg[ ]*=")" ] ; then   # should check commenting as well...
+        if ! grep -w "$pkg" "$file" | grep -q "^IgnorePkg[ ]*=" ; then   # should check commenting as well...
             read -r -p "add $pkg to IgnorePkg? [y/N] " reply >&2
             case "$reply" in
                 [Yy]*) AddIgnore "$pkg" ;;
