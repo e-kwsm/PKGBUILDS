@@ -427,11 +427,12 @@ Main() {
     OPTS+=",use-saved-cc,timeout-mirror:,countries:${sep}c:,show-failed"
 
     local -r user_fav_countries=$HOME/user-countries.txt
+    local target_msg=""
     local target_def=/etc/pacman.d/mirrorlist
     if [ -L "$target_def" ] ; then
         target_def=$(/bin/ls -l "$target_def" | awk '{print $NF}')         # /etc/pacman.d/mirrorlist is symlink, so update the target, not the link name
         [ "$target_def" ] || DIE "symlink target of /etc/pacman.d/mirrorlist was not found."
-        INFO "default mirrorlist file is now '$target_def'."
+        target_msg="default mirrorlist file is now '$target_def'."
     fi
     local target="$target_def"
     if [ -w . ] ; then
@@ -478,6 +479,10 @@ Main() {
     fi
 
     Parameters "$@"
+
+    if [ "$target_msg" ] ; then
+        INFO "$target_msg"
+    fi
 
     if [ $has_internet_connection = yes ] ; then
         eos-connection-checker || has_internet_connection=no       # make sure if we are online or offline
